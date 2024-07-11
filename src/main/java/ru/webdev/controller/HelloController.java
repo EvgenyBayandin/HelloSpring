@@ -1,20 +1,34 @@
 package ru.webdev.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.webdev.dto.HelloDto;
 import ru.webdev.mapper.HelloMapper;
+import ru.webdev.model.HelloModel;
 import ru.webdev.service.HelloService;
 
-@org.springframework.web.bind.annotation.RestController
+/**
+ * REST контроллер для обработки запросов.
+ */
+@RestController
 @RequiredArgsConstructor
 class HelloController {
+    
     private final HelloService helloService;
     private final HelloMapper helloMapper;
     
-    @org.springframework.web.bind.annotation.GetMapping(value = "/hello", produces = "application/json")
-    public ResponseEntity<ru.webdev.dto.HelloDto> sayHello() {
-        ru.webdev.model.HelloModel model = helloService.sayHello();
-        ru.webdev.dto.HelloDto dto = helloMapper.toDto(model);
+    /**
+     * Обрабатывает GET-запросы на /hello и возвращает сообщение в формате JSON.
+     *
+     * @return ResponseEntity с HelloDto, содержащим приветственное сообщение
+     */
+    @GetMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HelloDto> sayHello() {
+        HelloModel model = helloService.sayHello();
+        HelloDto dto = helloMapper.toDto(model);
         return ResponseEntity.ok(dto);
     }
 }
