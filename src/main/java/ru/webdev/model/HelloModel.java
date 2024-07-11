@@ -1,3 +1,5 @@
 package ru.webdev.model;
 
-public class HelloModel {}
+import java.util.UUID;
+
+public record HelloModel(UUID uuid, String message) {}
